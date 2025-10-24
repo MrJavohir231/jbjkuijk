@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aloqa - Barber Salon</title>
+  <link rel="shortcut icon" href="./6dae7a62-32f6-4abc-9f81-50a3d9f4f3cd.png" type="image/x-icon">
+  <link rel="stylesheet" href="styl.css">
+</head>
+<body>
+
+  <header class="header">
+    <h1>💈 Adil Barber — Aloqa</h1>
+    <nav>
+      <a href="index.html">Bosh sahifa</a>
+      <a href="Xizmatlar.html">Xizmatlar</a>
+      <a href="Aloqa.html" class="active">Aloqa</a>
+    </nav>
+  </header>
+
+  <main class="contact">
+    <section class="contact-info">
+      <h2>Biz bilan bog‘laning</h2>
+      <p>📞 Telefon raqam: 
+        <span id="phone">+998 94 418 89 98</span> 
+        <button id="copy-btn">📋 Nusxalash</button>
+      </p>
+      <p>📍 Manzil: Toshkent shahri, Chilonzor tumani</p>
+      <p>⏰ Ish vaqti: 09:00 — 21:00</p>
+    </section>
+
+    <section class="contact-form">
+      <h2>Bizga yozing</h2>
+      <form id="contactForm">
+        <label>Ismingiz</label>
+        <input type="text" id="name" placeholder="Ismingizni kiriting" required>
+
+        <label>Telefon raqam</label>
+        <input type="tel" id="phoneInput" placeholder="+998 __ ___ __ __" maxlength="13" required>
+
+        <label>Xabar</label>
+        <textarea id="message" rows="4" placeholder="Xabaringiz..."></textarea>
+
+        <button type="submit" id="sendBtn">📨 Yuborish</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Adil Barber | Barcha huquqlar himoyalangan.</p>
+  </footer>
+
+  <script src="aloqa.js"></script>
+</body>
+</html>
+

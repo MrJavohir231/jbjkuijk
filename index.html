@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Namozov Jamshid — Barber</title>
+  <link rel="shortcut icon" href="./6dae7a62-32f6-4abc-9f81-50a3d9f4f3cd.png" type="image/x-icon">
+  <style>
+    :root {
+      --bg: #0f1720;
+      --card: #0b1220;
+      --accent: #38bdf8;
+      --muted: #94a3b8;
+      --ok: #00ff99;
+      --disabled: #475569;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: Inter, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    nav {
+      background: linear-gradient(180deg, #07101a, #07121a);
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo { display: flex; gap: 12px; align-items: center; }
+    .logo .badge {
+      background: var(--accent);
+      color: #000;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+    .menu a {
+      color: #bfcbd6;
+      margin-left: 18px;
+      text-decoration: none;
+    }
+    .container { max-width: 1100px; margin: 28px auto; padding: 0 18px; }
+    .hero { text-align: center; padding: 18px 0; }
+    .services {
+      display: flex; flex-wrap: wrap; gap: 18px; justify-content: center;
+    }
+    .card {
+      background: var(--card);
+      padding: 16px;
+      border-radius: 12px;
+      width: 260px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, .6);
+    }
+    .card h4 { color: var(--accent); margin: 0 0 6px; }
+    .card p { color: var(--muted); margin: 4px 0; }
+    .check { margin-top: 12px; }
+
+    input {
+      width: 100%;
+      padding: 12px 16px;
+      margin: 8px 0;
+      background: #0f172a;
+      color: #fff;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      font-size: 16px;
+      outline: none;
+      transition: 0.3s;
+    }
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px #38bdf85a;
+    }
+    input.invalid {
+      border-color: #ff5b5b;
+      box-shadow: 0 0 10px rgba(255, 91, 91, 0.5);
+    }
+
+    button {
+      background: linear-gradient(135deg, var(--accent), #0ea5e9);
+      border: none;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 5px 15px rgba(56, 189, 248, 0.3);
+      transition: 0.3s ease;
+    }
+    button:hover:not(:disabled) {
+      transform: scale(1.03);
+      box-shadow: 0 4px 20px rgba(56, 189, 248, 0.4);
+    }
+    button:disabled {
+      background: var(--disabled);
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    #totalBox { text-align: center; margin-top: 18px; }
+    #totalPrice { color: var(--ok); font-weight: 700; }
+    #totalTime { color: var(--accent); }
+
+    .orders {
+      margin-top: 40px;
+      background: #0b1322;
+      padding: 20px;
+      border-radius: 12px;
+    }
+    .orders h3 {
+      margin-top: 0;
+      color: var(--accent);
+      text-align: center;
+    }
+    .order-item {
+      background: #0f1828;
+      padding: 10px 15px;
+      margin: 8px 0;
+      border-radius: 10px;
+      border-left: 3px solid var(--ok);
+    }
+    .order-item small { color: var(--muted); }
+
+    .ssm-box {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: var(--ok);
+      color: #000;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      display: none;
+    }
+
+    .error-text {
+      color: #ff5b5b;
+      font-size: 14px;
+      margin-top: -4px;
+    }
+
+    @media(max-width:700px){.services{flex-direction:column;align-items:center}.card{width:92%}}
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">
+      <div class="badge">NJ</div>
+      <div>
+        <div style="font-weight:700">Namozov Jamshid</div>
+        <div style="font-size:13px;color:#9aa6b2">Barber Salon</div>
+      </div>
+    </div>
+    <div class="menu">
+      <a href="Xizmatlar.html">Xizmatlar</a>
+      <a href="#"></a>
+      <a href="Aloqa.html">Aloqa</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <section class="hero">
+      <h1>Buyurtma berish</h1>
+      <p style="color:var(--muted)">Xizmat tanlang, sanani va vaqtni kiriting</p>
+    </section>
+
+    <section class="services">
+      <div class="card">
+        <h4>✂️ Soch kesish</h4>
+        <p>Narxi: <strong>40 000 so'm</strong></p>
+        <p>Vaqt: <strong>30 daqiqa</strong></p>
+        <label class="check"><input type="checkbox" class="service" data-name="Soch kesish" data-price="40000" data-time="30"> Tanlash</label>
+      </div>
+
+      <div class="card">
+        <h4>🧴 Soch yuvish</h4>
+        <p>Narxi: <strong>10 000 so'm</strong></p>
+        <p>Vaqt: <strong>10 daqiqa</strong></p>
+        <label class="check"><input type="checkbox" class="service" data-name="Soch yuvish" data-price="10000" data-time="10"> Tanlash</label>
+      </div>
+
+      <div class="card">
+        <h4>🧔 Soqol olish</h4>
+        <p>Narxi: <strong>25 000 so'm</strong></p>
+        <p>Vaqt: <strong>15 daqiqa</strong></p>
+        <label class="check"><input type="checkbox" class="service" data-name="Soqol olish" data-price="25000" data-time="15"> Tanlash</label>
+      </div>
+
+      <div class="card">
+        <h4>💎 Soch va soqol olish</h4>
+        <p>Narxi: <strong>65 000 so'm</strong></p>
+        <p>Vaqt: <strong>50 daqiqa</strong></p>
+        <label class="check"><input type="checkbox" class="service" data-name="Kompleks xizmat" data-price="65000" data-time="50"> Tanlash</label>
+      </div>
+    </section>
+
+    <div class="controls">
+      <input type="date" id="dateInput" />
+      <input type="time" id="timeInput" step="900" />
+      <input type="text" id="nameInput" placeholder="Ismingiz" />
+      <input type="tel" id="phoneInput" placeholder="+998 xx xxx xx xx" />
+      <div id="phoneError" class="error-text"></div>
+      <button id="saveBtn" disabled>Buyurtma berish</button>
+    </div>
+
+    <div id="totalBox">
+      <div id="totalPrice">Umumiy narx: 0 so'm</div>
+      <div id="totalTime">Umumiy vaqt: 0 daqiqa</div>
+    </div>
+
+    <div class="orders">
+      <h3>📋 Buyurtmalar tarixi</h3>
+      <div id="ordersList">Hozircha buyurtmalar yo‘q.</div>
+    </div>
+  </div>
+
+  <div class="ssm-box" id="ssmBox">📩 Buyurtma saqlandi!</div>
+
+  <script src="./admi.js">
+    
+    const services = document.querySelectorAll('.service');
+    const totalPrice = document.getElementById('totalPrice');
+    const totalTime = document.getElementById('totalTime');
+    const saveBtn = document.getElementById('saveBtn');
+    const ssmBox = document.getElementById('ssmBox');
+    const dateInput = document.getElementById('dateInput');
+    const timeInput = document.getElementById('timeInput');
+    const nameInput = document.getElementById('nameInput');
+    const phoneInput = document.getElementById('phoneInput');
+    const phoneError = document.getElementById('phoneError');
+    const ordersList = document.getElementById('ordersList');
+
+    let total = 0, minutes = 0;
+
+    services.forEach(ch => ch.addEventListener('change', updateTotals));
+    [dateInput, timeInput, nameInput, phoneInput].forEach(inp => inp.addEventListener('input', checkReady));
+
+    function updateTotals() {
+      total = 0; minutes = 0;
+      services.forEach(ch => {
+        if (ch.checked) {
+          total += Number(ch.dataset.price);
+          minutes += Number(ch.dataset.time);
+        }
+      });
+      totalPrice.textContent = `Umumiy narx: ${total.toLocaleString()} so'm`;
+      totalTime.textContent = `Umumiy vaqt: ${minutes} daqiqa`;
+      checkReady();
+    }
+
+    function validatePhone() {
+      const phone = phoneInput.value.trim();
+      const valid = /^\+998\d{9}$/.test(phone);
+      if (!valid && phone !== "") {
+        phoneInput.classList.add("invalid");
+        phoneError.textContent = "❌ Raqam noto‘g‘ri! To‘liq +998 bilan yozing (masalan: +998901234567)";
+      } else {
+        phoneInput.classList.remove("invalid");
+        phoneError.textContent = "";
+      }
+      return valid;
+    }
+
+    function checkReady() {
+      const validPhone = validatePhone();
+      const ok = dateInput.value && timeInput.value && nameInput.value.trim() && validPhone && total > 0;
+      saveBtn.disabled = !ok;
+    }
+
+    saveBtn.addEventListener('click', () => {
+      const chosen = Array.from(services).filter(s => s.checked).map(s => s.dataset.name);
+      const order = {
+        date: dateInput.value,
+        time: timeInput.value,
+        name: nameInput.value,
+        phone: phoneInput.value,
+        total,
+        minutes,
+        services: chosen,
+        created: new Date().toLocaleString()
+      };
+
+      let all = JSON.parse(localStorage.getItem('buyurtmalar')) || [];
+      all.push(order);
+      localStorage.setItem('buyurtmalar', JSON.stringify(all));
+
+      renderOrders();
+      ssmBox.style.display = 'block';
+      setTimeout(() => ssmBox.style.display = 'none', 3000);
+      resetForm();
+    });
+
+    function renderOrders() {
+      let all = JSON.parse(localStorage.getItem('buyurtmalar')) || [];
+      if (all.length === 0) {
+        ordersList.innerHTML = "Hozircha buyurtmalar yo‘q.";
+        return;
+      }
+      ordersList.innerHTML = all.map(o => `
+        <div class="order-item">
+          <b>${o.name}</b> — ${o.phone}<br>
+          <small>${o.date} | ${o.time}</small><br>
+          Xizmatlar: ${o.services.join(", ")}<br>
+          <span style="color:var(--ok)">Narx: ${o.total.toLocaleString()} so'm</span>,
+          <span style="color:var(--accent)">Vaqt: ${o.minutes} daqiqa</span><br>
+          <small>${o.created}</small>
+        </div>
+      `).join("");
+    }
+
+    function resetForm() {
+      [dateInput, timeInput, nameInput, phoneInput].forEach(i => i.value = '');
+      services.forEach(s => s.checked = false);
+      total = 0; minutes = 0;
+      totalPrice.textContent = "Umumiy narx: 0 so'm";
+      totalTime.textContent = "Umumiy vaqt: 0 daqiqa";
+      checkReady();
+    }
+
+    window.addEventListener('load', renderOrders);
+  </script>
+</body>
+</html>
+
