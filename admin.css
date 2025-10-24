@@ -1,0 +1,85 @@
+body {
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    background: #0f172a;
+    color: #fff;
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1e293b;
+    padding: 15px 25px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+  }
+  
+  .nav-links button {
+    background: transparent;
+    border: none;
+    color: #fff;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: .3s;
+  }
+  .nav-links button:hover,
+  .nav-links .active {
+    color: #38bdf8;
+  }
+  
+  main {
+    padding: 25px;
+  }
+  
+  h2 {
+    border-bottom: 2px solid #38bdf8;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+  }
+  
+  .list {
+    display: grid;
+    gap: 15px;
+  }
+  
+  .card {
+    background: #1e293b;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  }
+  
+  form {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  form input, form button {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+  }
+  form input {
+    flex: 1;
+  }
+  form button {
+    background: #38bdf8;
+    color: white;
+    cursor: pointer;
+    transition: .3s;
+  }
+  form button:hover {
+    background: #0ea5e9;
+  }
+  
+  @media (max-width: 768px) {
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+  

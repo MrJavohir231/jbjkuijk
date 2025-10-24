@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To‘lov sahifasi</title>
+  <style>
+    body { font-family: Arial; text-align: center; margin-top: 50px; }
+    input { padding: 10px; width: 250px; font-size: 16px; }
+    button { margin-top: 15px; padding: 8px 15px; background: green; color: white; border: none; border-radius: 8px; cursor: pointer; }
+    button:hover { background: darkgreen; }
+    #xabar { margin-top: 30px; font-size: 22px; font-weight: bold; color: green; }
+  </style>
+</head>
+<body>
+
+  <h2>💳 To‘lov sahifasi</h2>
+  <p id="narx"></p>
+
+  <input type="number" id="karta" placeholder="Plastik karta raqamingizni kiriting">
+  <br>
+  <button onclick="tolovQil()">To‘lovni amalga oshirish</button>
+
+  <div id="xabar"></div>
+
+  <script>
+    const umumiyNarx = localStorage.getItem('umumiyNarx') || 0;
+    document.getElementById('narx').textContent = 'Umumiy to‘lov summasi: ' + Number(umumiyNarx).toLocaleString('uz-UZ') + ' so‘m';
+
+    function tolovQil() {
+      const karta = document.getElementById('karta').value;
+      if (karta.length >= 8) {
+        document.getElementById('xabar').textContent = '✅ Zakaz berildi! Rahmat!';
+        localStorage.removeItem('umumiyNarx');
+      } else {
+        alert('❌ Iltimos, plastik raqamni to‘liq kiriting!');
+      }
+    }
+  </script>
+
+</body>
+</html>

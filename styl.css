@@ -1,0 +1,169 @@
+/* === Umumiy sozlamalar === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #0b1220, #182642);
+  color: #fff;
+  min-height: 100vh;
+}
+
+/* === Header === */
+.header {
+  background: #101c33;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.header h1 {
+  font-size: 1.5rem;
+  color: #00c4ff;
+}
+
+.header nav a {
+  color: #ccc;
+  margin: 0 0.8rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.header nav a:hover,
+.header nav a.active {
+  color: #00c4ff;
+}
+
+/* === Asosiy kontent === */
+.contact {
+  max-width: 800px;
+  margin: 2rem auto;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.contact-info {
+  margin-bottom: 2rem;
+}
+
+.contact-info h2 {
+  color: #00c4ff;
+  margin-bottom: 1rem;
+}
+
+.contact-info p {
+  margin-bottom: 0.6rem;
+  font-size: 1.1rem;
+}
+
+#copy-btn {
+  background: #00c4ff;
+  border: none;
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 0.9rem;
+}
+
+#copy-btn:hover {
+  background: #008fcc;
+}
+
+/* === Forma === */
+.contact-form h2 {
+  color: #00c4ff;
+  margin-bottom: 1rem;
+}
+
+.contact-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-form label {
+  margin-top: 1rem;
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 0.6rem;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: 1rem;
+  background: #182642;
+  color: #fff;
+  resize: none;
+}
+
+.contact-form button {
+  margin-top: 1.5rem;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  background: #00c4ff;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.contact-form button:disabled {
+  background: #555;
+  cursor: not-allowed;
+}
+
+.contact-form button:hover:not(:disabled) {
+  background: #009cd1;
+}
+
+/* === Footer === */
+footer {
+  text-align: center;
+  padding: 1rem;
+  background: #0b1220;
+  color: #aaa;
+  margin-top: 3rem;
+  font-size: 0.9rem;
+}
+
+/* === Responsiv dizayn === */
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .header h1 {
+    margin-bottom: 1rem;
+  }
+
+  .contact {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  #copy-btn {
+    display: block;
+    margin: 8px 0 0;
+  }
+}
+
+
+
+
+
+  

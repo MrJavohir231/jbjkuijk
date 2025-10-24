@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin panel — Namozov Jamshid Barber</title>
+  <style>
+    :root{
+      --bg:#0f1720; --card:#0b1220; --accent:#38bdf8; --muted:#94a3b8; --ok:#00ff99; --danger:#ef4444;
+    }
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Arial;background:var(--bg);color:#fff;margin:0;padding:0}
+    nav{background:linear-gradient(180deg,#07101a,#07121a);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+    .logo{color:var(--accent);font-weight:700}
+    .container{max-width:1000px;margin:26px auto;padding:18px}
+    .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.6)}
+    h1{color:var(--accent);margin:0 0 12px}
+    /* LOGIN */
+    .login-wrap{max-width:420px;margin:40px auto}
+    .login-card{padding:20px;border-radius:12px;background:linear-gradient(180deg,#07121a,#091827);border:1px solid rgba(56,189,248,0.06)}
+    label{display:block;margin:10px 0 6px;color:var(--muted)}
+    input[type="password"]{width:100%;padding:12px;border-radius:10px;border:1px solid #263449;background:#0f1a2a;color:#fff}
+    button{background:linear-gradient(135deg,var(--accent),#0ea5e9);border:none;color:#000;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
+    button.secondary{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.06)}
+    .hint{color:var(--muted);font-size:13px;margin-top:8px}
+    .error{color:var(--danger);margin-top:8px}
+
+    /* ORDERS */
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+    .orders-list{margin-top:12px;display:grid;gap:12px}
+    .order{background:#07121b;padding:12px;border-radius:10px;border-left:4px solid var(--accent)}
+    .order b{display:block}
+    .order small{color:var(--muted)}
+    .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+    .search{padding:8px;border-radius:8px;border:1px solid #223042;background:#071823;color:#fff}
+    .pill{background:#0b1220;padding:8px 10px;border-radius:999px;color:var(--muted);font-weight:600}
+    .del-btn{background:var(--danger);border:none;color:#fff;padding:6px 10px;border-radius:8px;cursor:pointer}
+
+    footer{margin-top:26px;text-align:center;color:var(--muted);font-size:13px}
+
+    @media(max-width:700px){
+      .controls{flex-direction:column;align-items:stretch}
+      .actions{justify-content:flex-start}
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">🧾 Admin Panel — Namozov Jamshid Barber</div>
+    <div>
+      <a href="index.html" style="color:#94a3b8;text-decoration:none">◀️ Asosiy sayt</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div id="loginView" class="login-wrap">
+      <div class="login-card card">
+        <h2>Adminga kirish</h2>
+        <p class="hint">Iltimos, admin parolni kiriting.</p>
+
+        <label for="adminPass">Parol</label>
+        <input id="adminPass" type="password" placeholder="Parolni kiriting" />
+
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <button id="loginBtn">Kirish</button>
+          <button id="cancelBtn" class="secondary">Bekor</button>
+        </div>
+
+        <div id="loginError" class="error" style="display:none"></div>
+
+        <p class="hint" style="margin-top:10px">Parol: <code>???</code> (demo)</p>
+      </div>
+    </div>
+
+    <div id="adminView" style="display:none">
+      <div class="card">
+        <h1>📋 Buyurtmalar</h1>
+
+        <div class="controls">
+          <input id="searchInput" class="search" placeholder="Ism yoki telefon bo‘yicha qidirish..." />
+          <div class="pill" id="countPill">Jami: 0</div>
+          <button id="logoutBtn" style="margin-left:auto" class="secondary">Chiqish</button>
+        </div>
+
+        <div class="actions">
+          <button id="refreshBtn" class="secondary">Yangilash</button>
+          <button id="deleteAllBtn" class="del-btn">Barchasini o‘chirish</button>
+        </div>
+
+        <div id="ordersList" class="orders-list"></div>
+
+        <footer>© 2025 Namozov Jamshid Barber — Admin</footer>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // --- KONFIGURATSIYA ---
+    const ADMIN_PASSWORD = 'javo1212'; // <<<< parol shu yerda
+
+    // --- ELEMENTLAR ---
+    const loginView = document.getElementById('loginView');
+    const adminView = document.getElementById('adminView');
+    const adminPass = document.getElementById('adminPass');
+    const loginBtn = document.getElementById('loginBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const loginError = document.getElementById('loginError');
+
+    const logoutBtn = document.getElementById('logoutBtn');
+    const ordersList = document.getElementById('ordersList');
+    const refreshBtn = document.getElementById('refreshBtn');
+    const deleteAllBtn = document.getElementById('deleteAllBtn');
+    const searchInput = document.getElementById('searchInput');
+    const countPill = document.getElementById('countPill');
+
+    // --- yordamchi funksiyalar ---
+    function isAuthenticated() {
+      return sessionStorage.getItem('admin_auth') === '1';
+    }
+    function setAuthenticated(v) {
+      if (v) sessionStorage.setItem('admin_auth','1');
+      else sessionStorage.removeItem('admin_auth');
+    }
+
+    function showLogin() {
+      adminView.style.display = 'none';
+      loginView.style.display = 'block';
+      adminPass.value = '';
+      loginError.style.display = 'none';
+    }
+    function showAdmin() {
+      loginView.style.display = 'none';
+      adminView.style.display = 'block';
+      renderOrders(); // yuklab chiqar
+    }
+
+    // --- login harakatlari ---
+    loginBtn.addEventListener('click', () => {
+      const val = adminPass.value.trim();
+      if (val === ADMIN_PASSWORD) {
+        setAuthenticated(true);
+        showAdmin();
+      } else {
+        loginError.style.display = 'block';
+        loginError.textContent = 'Parol noto‘g‘ri! Qayta urinib ko‘ring.';
+      }
+    });
+    cancelBtn.addEventListener('click', () => {
+      adminPass.value = '';
+      loginError.style.display = 'none';
+    });
+
+    // logout
+    logoutBtn.addEventListener('click', () => {
+      if (confirm('Chiqishni xohlaysizmi?')) {
+        setAuthenticated(false);
+        showLogin();
+      }
+    });
+
+    // --- ORDER funksiyalari ---
+    function loadOrdersRaw() {
+      return JSON.parse(localStorage.getItem('buyurtmalar')) || [];
+    }
+
+    function saveOrdersRaw(arr) {
+      localStorage.setItem('buyurtmalar', JSON.stringify(arr));
+    }
+
+    function renderOrders(filter = '') {
+      const all = loadOrdersRaw();
+      let list = all;
+      if (filter) {
+        const q = filter.toLowerCase();
+        list = all.filter(o => (o.name && o.name.toLowerCase().includes(q)) || (o.phone && o.phone.toLowerCase().includes(q)) || (o.services && o.services.join(' ').toLowerCase().includes(q)));
+      }
+
+      countPill.textContent = `Jami: ${list.length}`;
+
+      if (list.length === 0) {
+        ordersList.innerHTML = '<div style="text-align:center;color:var(--muted);padding:18px">Hozircha buyurtmalar yo‘q.</div>';
+        return;
+      }
+
+      ordersList.innerHTML = list.map((o, idx) => {
+        // chiziqli xizmatlar ro'yxati
+        const services = (o.services && o.services.length) ? o.services.join(', ') : '-';
+        const statusColor = o.status === 'tasdiqlandi' ? 'color:var(--ok)' : (o.status === 'bekor' ? 'color:#f97316' : 'color:#94a3b8');
+
+        return `
+          <div class="order" data-index="${idx}">
+            <div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+              <div>
+                <b>${escapeHtml(o.name || '-')}</b>
+                <div style="font-size:13px;color:var(--muted)">${escapeHtml(o.phone || '-')}</div>
+              </div>
+              <div style="text-align:right">
+                <small>${escapeHtml(o.created || '')}</small><br>
+                <small style="${statusColor}">${escapeHtml(o.status || 'yangi')}</small>
+              </div>
+            </div>
+
+            <div style="margin-top:8px">
+              <small>Sana: <b>${escapeHtml(o.date || '')}</b> | Vaqt: <b>${escapeHtml(o.time || '')}</b></small><br>
+              <small>Xizmatlar: ${escapeHtml(services)}</small><br>
+              <small style="color:var(--ok)">Narx: ${Number(o.total || 0).toLocaleString()} so'm</small>
+            </div>
+
+            <div style="margin-top:10px;display:flex;gap:8px">
+              <button onclick="markOrder(${o.id}, 'tasdiqlandi')" style="background:#059669;color:white;border:none;padding:8px 10px;border-radius:8px;cursor:pointer">Tasdiqlash</button>
+              <button onclick="markOrder(${o.id}, 'bekor')" style="background:#f97316;color:white;border:none;padding:8px 10px;border-radius:8px;cursor:pointer">Bekor qilish</button>
+              <button onclick="deleteOrderById(${o.id})" style="background:var(--danger);color:white;border:none;padding:8px 10px;border-radius:8px;cursor:pointer;margin-left:auto">O'chirish</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // escape xss uchun
+    function escapeHtml(str) {
+      if (!str && str !== 0) return '';
+      return String(str)
+        .replaceAll('&','&amp;')
+        .replaceAll('<','&lt;')
+        .replaceAll('>','&gt;')
+        .replaceAll('"','&quot;')
+        .replaceAll("'",'&#39;');
+    }
+
+    // id bilan topish va o'zgartirish
+    function findOrderIndexById(id) {
+      const all = loadOrdersRaw();
+      return all.findIndex(o => Number(o.id) === Number(id));
+    }
+
+    function markOrder(id, newStatus) {
+      const all = loadOrdersRaw();
+      const idx = findOrderIndexById(id);
+      if (idx === -1) { alert('Buyurtma topilmadi'); return; }
+      all[idx].status = newStatus;
+      saveOrdersRaw(all);
+      renderOrders(searchInput.value.trim());
+    }
+
+    function deleteOrderById(id) {
+      if (!confirm('Bu buyurtmani o‘chirmoqchimisiz?')) return;
+      let all = loadOrdersRaw();
+      const idx = findOrderIndexById(id);
+      if (idx === -1) return;
+      all.splice(idx,1);
+      saveOrdersRaw(all);
+      renderOrders(searchInput.value.trim());
+    }
+
+    // barcha o'chirish
+    deleteAllBtn.addEventListener('click', ()=> {
+      if (!confirm('Barcha buyurtmalar tozalansinmi?')) return;
+      localStorage.removeItem('buyurtmalar');
+      renderOrders();
+    });
+
+    refreshBtn.addEventListener('click', ()=> renderOrders(searchInput.value.trim()));
+    searchInput.addEventListener('input', ()=> renderOrders(searchInput.value.trim()));
+
+    // yuklanishda autentifikatsiyani tekshirish
+    window.addEventListener('load', ()=> {
+      if (isAuthenticated()) showAdmin();
+      else showLogin();
+    });
+
+    // expose functions for inline onclick (because we used onclick attributes)
+    window.deleteOrderById = deleteOrderById;
+    window.markOrder = markOrder;
+  </script>
+</body>
+</html>
+
+

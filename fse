@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Barber Zakaz</title>
+  <style>
+    body {
+      background: #0f172a;
+      color: #fff;
+      font-family: "Poppins", sans-serif;
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #38bdf8;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px 16px;
+      margin: 8px 0;
+      background: #0f172a;
+      color: #fff;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 10px #38bdf85a;
+      background: #1e293b;
+    }
+
+    button {
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      border: none;
+      color: white;
+      padding: 14px 22px;
+      border-radius: 14px;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(56, 189, 248, 0.3);
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 25px rgba(56, 189, 248, 0.4);
+    }
+
+    #orders {
+      margin-top: 25px;
+      background: #1e293b;
+      padding: 15px;
+      border-radius: 12px;
+    }
+
+    .order-item {
+      border-bottom: 1px solid #334155;
+      padding: 10px 0;
+    }
+
+    .order-item:last-child {
+      border-bottom: none;
+    }
+
+  </style>
+</head>
+<body>
+  <h1>💈 Barber Zakaz</h1>
+
+  <form id="orderForm">
+    <input type="text" id="name" placeholder="Ismingiz" required>
+    <select id="service" required>
+      <option value="">Xizmatni tanlang</option>
+      <option value="Soch olish">Soch olish — 30 min — 50 000 so‘m</option>
+      <option value="Soqol olish">Soqol olish — 15 min — 30 000 so‘m</option>
+      <option value="Soch + soqol">Soch + Soqol — 45 min — 70 000 so‘m</option>
+    </select>
+    <input type="time" id="time" required>
+    <button type="submit">Buyurtma berish</button>
+  </form>
+
+  <div id="orders">
+    <h3>🧾 Buyurtmalar ro‘yxati</h3>
+    <div id="orderList"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('orderForm');
+    const orderList = document.getElementById('orderList');
+
+    // Local Storage'dan yuklash
+    let orders = JSON.parse(localStorage.getItem('orders')) || [];
+
+    // Saqlangan buyurtmalarni chiqarish
+    function renderOrders() {
+      orderList.innerHTML = '';
+      if (orders.length === 0) {
+        orderList.innerHTML = '<p>Hozircha buyurtmalar yo‘q 😌</p>';
+        return;
+      }
+
+      orders.forEach((o) => {
+        const div = document.createElement('div');
+        div.classList.add('order-item');
+        div.innerHTML = `
+          <b>${o.name}</b> — ${o.service} <br>
+          ⏰ ${o.time} | 💰 ${o.price} so‘m | 📅 ${o.date}
+        `;
+        orderList.appendChild(div);
+      });
+    }
+
+    renderOrders();
+
+    // Xizmat narxini aniqlash
+    function getPrice(service) {
+      if (service.includes("Soch + Soqol")) return 70000;
+      if (service.includes("Soch olish")) return 50000;
+      if (service.includes("Soqol")) return 30000;
+      return 0;
+    }
+
+    // Buyurtma berilganda
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const service = document.getElementById('service').value;
+      const time = document.getElementById('time').value;
+      const price = getPrice(service);
+      const date = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString();
+
+      const order = { name, service, time, price, date };
+      orders.push(order);
+      localStorage.setItem('orders', JSON.stringify(orders));
+
+      renderOrders();
+      form.reset();
+
+      alert('✅ Buyurtma qabul qilindi!');
+    });
+  </script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Barber Zakaz</title>
+  <style>
+    body {
+      background: #0f172a;
+      color: #fff;
+      font-family: "Poppins", sans-serif;
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #38bdf8;
+    }
+
+    .service-card {
+      background: #1e293b;
+      padding: 16px;
+      border-radius: 14px;
+      margin: 12px 0;
+      box-shadow: 0 4px 12px rgba(56,189,248,0.1);
+      transition: 0.3s;
+    }
+
+    .service-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 20px rgba(56,189,248,0.2);
+    }
+
+    .service-card h3 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .service-card p {
+      margin: 6px 0;
+      color: #94a3b8;
+    }
+
+    button {
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      border: none;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      width: 100%;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 18px rgba(56,189,248,0.4);
+    }
+
+    #orders {
+      margin-top: 25px;
+      background: #1e293b;
+      padding: 15px;
+      border-radius: 12px;
+    }
+
+    .order-item {
+      border-bottom: 1px solid #334155;
+      padding: 10px 0;
+    }
+
+    .order-item:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>💈 Barber Xizmatlari</h1>
+
+  <div class="service-card">
+    <h3>✂️ Soch kesish</h3>
+    <p>Narxi: <b>40 000 so'm</b></p>
+    <p>Vaqt: 30 daqiqa</p>
+    <button onclick="selectService('✂️ Soch kesish', 40000, 30)">Tanlash</button>
+  </div>
+
+  <div class="service-card">
+    <h3>🧴 Soch yuvish</h3>
+    <p>Narxi: <b>10 000 so'm</b></p>
+    <p>Vaqt: 10 daqiqa</p>
+    <button onclick="selectService('🧴 Soch yuvish', 10000, 10)">Tanlash</button>
+  </div>
+
+  <div class="service-card">
+    <h3>🧔 Soqol olish</h3>
+    <p>Narxi: <b>25 000 so'm</b></p>
+    <p>Vaqt: 15 daqiqa</p>
+    <button onclick="selectService('🧔 Soqol olish', 25000, 15)">Tanlash</button>
+  </div>
+
+  <div class="service-card">
+    <h3>💎 Kompleks xizmat</h3>
+    <p>Narxi: <b>65 000 so'm</b></p>
+    <p>Vaqt: 50 daqiqa</p>
+    <button onclick="selectService('💎 Kompleks xizmat', 65000, 50)">Tanlash</button>
+  </div>
+
+  <div id="orders">
+    <h3>🧾 Buyurtmalar ro‘yxati</h3>
+    <div id="orderList"></div>
+  </div>
+
+  <script>
+    const orderList = document.getElementById('orderList');
+    let orders = JSON.parse(localStorage.getItem('orders')) || [];
+
+    function renderOrders() {
+      orderList.innerHTML = '';
+      if (orders.length === 0) {
+        orderList.innerHTML = '<p>Hozircha buyurtmalar yo‘q 😌</p>';
+        return;
+      }
+      orders.forEach(o => {
+        const div = document.createElement('div');
+        div.classList.add('order-item');
+        div.innerHTML = `
+          <b>${o.name}</b> — ${o.price.toLocaleString()} so'm <br>
+          ⏰ ${o.time} daqiqa | 📅 ${o.date}
+        `;
+        orderList.appendChild(div);
+      });
+    }
+
+    renderOrders();
+
+    function selectService(name, price, time) {
+      const date = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString();
+      const order = { name, price, time, date };
+      orders.push(order);
+      localStorage.setItem('orders', JSON.stringify(orders));
+      renderOrders();
+      alert(`✅ ${name} xizmati tanlandi!`);
+    }
+  </script>
+</body>
+</html>
